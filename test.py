@@ -19,6 +19,11 @@ carImg = pygame.image.load("racecar.png")
 car_width = 100
 #print(carImg)
 
+def thingsDodged(count):
+	font = pygame.font.SysFont(None, 25)
+	text = font.render("Score: "+str(count), True, black)
+	gameDisplay.blit(text, (0,0))
+
 def Things(thingX, thingY, thingH, thingW, color):
 	pygame.draw.rect(gameDisplay, color, [thingX, thingY, thingW, thingH])
 
@@ -53,6 +58,7 @@ def game_loop():
 	thing_speed = 5
 	thing_width = 100
 	thing_height = 100
+	dodged = 0
 
 	while not gameExit:
 		for event in pygame.event.get():
@@ -81,6 +87,7 @@ def game_loop():
 		Things(thing_startx, thing_starty, thing_width, thing_height, black)
 		thing_starty += thing_speed
 		Car(x,y)
+		thingsDodged(dodged)
 
 		if x > ScreenWidth + car_width or x < 0:
 			crash()
@@ -88,6 +95,7 @@ def game_loop():
 		if thing_starty > ScreenHeight:
 			thing_starty = 0 - thing_height
 			thing_startx = random.randrange(0,ScreenWidth)
+			dodged += 1
 
 		if y < thing_starty + thing_height:
 			if x > thing_startx and x < thing_startx + thing_width or x+car_width > thing_startx and x + car_width < thing_startx+thing_width:
