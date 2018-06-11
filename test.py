@@ -12,6 +12,8 @@ pygame.display.set_caption("surprise :D")
 
 black = (0,0,0)
 white = (255,255,255)
+red = (255,0,0)
+blue = (66, 179, 244)
 
 clock = pygame.time.Clock()
 
@@ -21,7 +23,7 @@ car_width = 100
 
 def thingsDodged(count):
 	font = pygame.font.SysFont(None, 25)
-	text = font.render("Score: "+str(count), True, black)
+	text = font.render("Score: "+str(count), True, red)
 	gameDisplay.blit(text, (0,0))
 
 def Things(thingX, thingY, thingH, thingW, color):
@@ -81,10 +83,10 @@ def game_loop():
 					xChange = 0
 
 		x += xChange
-		print(x)
+		#print(x)
 
 		gameDisplay.fill(white)
-		Things(thing_startx, thing_starty, thing_width, thing_height, black)
+		Things(thing_startx, thing_starty, thing_width, thing_height, blue)
 		thing_starty += thing_speed
 		Car(x,y)
 		thingsDodged(dodged)
@@ -93,12 +95,13 @@ def game_loop():
 			crash()
 
 		if thing_starty > ScreenHeight:
-			thing_starty = 0 - thing_height
+			thing_starty = 0
 			thing_startx = random.randrange(0,ScreenWidth)
 			dodged += 1
+			thing_speed += 1
 
 		if y < thing_starty + thing_height:
-			if x > thing_startx and x < thing_startx + thing_width or x+car_width > thing_startx and x + car_width < thing_startx+thing_width:
+			if (x > thing_startx and x < thing_startx + thing_width) or (x+car_width > thing_startx and x + car_width < thing_startx+thing_width):
 				crash()
 
 		pygame.display.flip()
